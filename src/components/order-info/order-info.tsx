@@ -1,21 +1,29 @@
+import { getOrderByNumberApi } from '@api';
 import { Preloader, OrderInfoUI } from '@ui';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import type { TIngredient } from '@utils-types';
+import { selectFeedState, selectIngredients } from '@services/selectors';
+import { useSelector } from '@services/store';
+
+import type { TOrder, TIngredient } from '@utils-types';
 
 export const OrderInfo = (): React.JSX.Element => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0,
-  };
+  const { number } = useParams();
+  const storedOrder = useSelector(selectFeedState).orders.find(
+    (order) => order.number === Number(number)
+  );
+  const ingredients: TIngredient[] = useSelector(selectIngredients);
+  const [loadedOrder, setLoadedOrder] = useState<TOrder | null>(null);
 
-  const ingredients: TIngredient[] = [];
+  useEffect(() => {
+    if (storedOrder || !number) return;
+    void getOrderByNumberApi(Number(number))
+      .then((response) => setLoadedOrder(response.orders[0] ?? null))
+      .catch(() => setLoadedOrder(null));
+  }, [number, storedOrder]);
+
+  const orderData = storedOrder ?? loadedOrder;
 
   /**
    * использование useMemo не обязательно
