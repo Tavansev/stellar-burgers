@@ -1,39 +1,25 @@
 import { BurgerConstructor, BurgerIngredients } from '@components';
-import { fetchIngredients } from '@slices';
+import { useSelector } from '@services/store';
 import { Preloader } from '@ui';
-import { useEffect } from 'react';
-
-import { useDispatch, useSelector } from '@services/store';
 
 import type { RootState } from '@services/store';
 
 import styles from './constructor-page.module.css';
 
 export const ConstructorPage = (): React.JSX.Element => {
-  const dispatch = useDispatch();
   const ingredients = useSelector((state: RootState) => state.ingredients.ingredients);
   const isLoading = useSelector((state: RootState) => state.ingredients.isLoading);
   const error = useSelector((state: RootState) => state.ingredients.error);
 
-  useEffect(() => {
-    void dispatch(fetchIngredients());
-  }, [dispatch]);
-
-  if (isLoading) {
+  if (isLoading && !ingredients.length) {
     return <Preloader />;
   }
 
-  if (error) {
+  if (error && !ingredients.length) {
     return (
       <p className={`${styles.message} text text_type_main-medium`}>
         Не удалось загрузить ингредиенты: {error}
       </p>
-    );
-  }
-
-  if (!ingredients.length) {
-    return (
-      <p className={`${styles.message} text text_type_main-medium`}>Нет ингредиентов</p>
     );
   }
 

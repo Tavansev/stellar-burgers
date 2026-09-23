@@ -1,9 +1,8 @@
-import { createOrder, clearOrder, clearConstructor } from '@slices';
-import { BurgerConstructorUI } from '@ui';
-import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import { clearConstructor, clearOrder, createOrder } from '@slices';
 import { useDispatch, useSelector } from '@services/store';
+import { BurgerConstructorUI } from '@ui';
+import { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import type { RootState } from '@services/store';
 import type { TConstructorIngredient, TConstructorState } from '@utils-types';
@@ -21,6 +20,12 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
 
   const orderRequest = useSelector((state: RootState) => state.order.orderRequest);
   const orderModalData = useSelector((state: RootState) => state.order.orderModalData);
+
+  useEffect(() => {
+    if (orderModalData) {
+      dispatch(clearConstructor());
+    }
+  }, [orderModalData, dispatch]);
 
   const onOrderClick = (): void => {
     if (!user) {
@@ -41,7 +46,6 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
 
   const closeOrderModal = (): void => {
     dispatch(clearOrder());
-    dispatch(clearConstructor());
   };
 
   const price = useMemo(

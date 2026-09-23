@@ -16,15 +16,14 @@ import {
   Register,
   ResetPassword,
 } from '@pages';
-import { getUser } from '@slices';
+import { fetchIngredients, getUser } from '@slices';
+import { useDispatch, useSelector } from '@services/store';
 import { Preloader } from '@ui';
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
-import { useDispatch, useSelector } from '@services/store';
-
-import type { RootState } from '@services/store';
 import type { Location } from 'react-router-dom';
+import type { RootState } from '@services/store';
 
 import '../../index.css';
 
@@ -40,6 +39,7 @@ const App = (): React.JSX.Element => {
 
   useEffect(() => {
     void dispatch(getUser());
+    void dispatch(fetchIngredients());
   }, [dispatch]);
 
   const closeModal = (): void => {
