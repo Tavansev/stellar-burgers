@@ -1,8 +1,9 @@
 import { clearConstructor, clearOrder, createOrder } from '@slices';
-import { useDispatch, useSelector } from '@services/store';
 import { BurgerConstructorUI } from '@ui';
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useDispatch, useSelector } from '@services/store';
 
 import type { RootState } from '@services/store';
 import type { TConstructorIngredient, TConstructorState } from '@utils-types';
