@@ -17,13 +17,14 @@ import {
   ResetPassword,
 } from '@pages';
 import { fetchIngredients, getUser } from '@slices';
-import { useDispatch, useSelector } from '@services/store';
 import { Preloader } from '@ui';
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
-import type { Location } from 'react-router-dom';
+import { useDispatch, useSelector } from '@services/store';
+
 import type { RootState } from '@services/store';
+import type { Location } from 'react-router-dom';
 
 import '../../index.css';
 

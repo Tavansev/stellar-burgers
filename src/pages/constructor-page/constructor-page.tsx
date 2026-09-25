@@ -1,6 +1,7 @@
 import { BurgerConstructor, BurgerIngredients } from '@components';
-import { useSelector } from '@services/store';
 import { Preloader } from '@ui';
+
+import { useSelector } from '@services/store';
 
 import type { RootState } from '@services/store';
 
